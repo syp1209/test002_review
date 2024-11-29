@@ -1,0 +1,18 @@
+package com.example.samuraitravel.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+public class ReviewController {
+	
+	//アプリのreview.htmlにアクセスされたときに実行されるメソッド
+	//レビュー投稿ボタンをクリックしたときに、レビュー投稿ページを表示する
+    @GetMapping("/houses/{id}/review/input")
+    public String input(@PathVariable(name = "id") Integer id
+    					) {
+    	
+        return "/houses/{id}";
+    }  
+}
+

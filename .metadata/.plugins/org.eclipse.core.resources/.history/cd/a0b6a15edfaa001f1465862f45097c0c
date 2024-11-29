@@ -1,0 +1,47 @@
+package com.example.samuraitravel.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.entity.Review;
+import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.form.ReviewInputForm;
+import com.example.samuraitravel.repository.HouseRepository;
+import com.example.samuraitravel.repository.ReviewRepository;
+import com.example.samuraitravel.repository.UserRepository;
+
+@Service
+public class ReviewService {
+    private final ReviewRepository reviewRepository;    
+    private final HouseRepository houseRepository;  
+    private final UserRepository userRepository;  
+    
+    public ReviewService(ReviewRepository reviewRepository, HouseRepository houseRepository, UserRepository UserRepository) {
+        this.reviewRepository = reviewRepository; 
+        this.houseRepository = houseRepository;
+        this.userRepository = UserRepository;
+    } 
+    
+    @Transactional
+    public void create(ReviewInputForm reviewInputForm) {
+    	Review review = new Review();        
+    	
+    	//housesのidを取得しreview_idに格納
+    	House house = houseRepository.getReferenceById(reviewInputForm.getHouseId());
+    	
+    	
+    	User userId = Integer.valueOf(paymentIntentObject.get("userId"));
+    	
+    	
+    	//review.setReview_id(reviewInputForm.getReview_id());              
+    	review.setHouse_id(house);
+    	review.setUser_id(userId);
+    	review.setScore(reviewInputForm.getScore());
+    	review.setMemo(reviewInputForm.getMemo());
+    	//review.setCreated_at(reviewInputForm.getCreated_at());
+    	//review.setUpdated_at(reviewInputForm.getupdated_at());
+                    
+    	reviewRepository.save(review);
+    }
+}

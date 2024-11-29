@@ -1,0 +1,68 @@
+package com.example.samuraitravel.service;
+
+import java.time.LocalDate;
+import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.entity.Review;
+import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.form.ReviewInputForm;
+import com.example.samuraitravel.repository.HouseRepository;
+import com.example.samuraitravel.repository.ReservationRepository;
+import com.example.samuraitravel.repository.ReviewRepository;
+import com.example.samuraitravel.repository.UserRepository;
+
+@Service
+public class ReviewService {
+    private final ReviewRepository reviewRepository;    
+    private final ReservationRepository reservationRepository;  
+    private final HouseRepository houseRepository;  
+    private final UserRepository userRepository;  
+    
+    public ReviewService(ReviewRepository reviewRepository, HouseRepository houseRepository, UserRepository UserRepository) {
+        this.reviewRepository = reviewRepository; 
+        this.houseRepository = houseRepository;
+        this.UserRepository = UserRepository;
+    } 
+    
+    @Transactional
+    //後でRevieFormを作る
+    public void create(Map<String, String> paymentIntentObject) {
+    	Review review = new Review();        
+    	
+    	House houseId = Integer.valueOf(paymentIntentObject.get("houseId"));
+    	User userId = Integer.valueOf(paymentIntentObject.get("userId"));
+    	
+    	
+    	review.setReview_id(reviewInputForm.getReview_id());              
+    	review.setHouse_id(houseId);
+    	review.setUser_id(userId);
+    	review.setScore(reviewInputForm.getScore());
+    	review.setMemo(reviewInputForm.getMemo());
+    	//review.setCreated_at(reviewInputForm.getCreated_at());
+    	//review.setUpdated_at(reviewInputForm.getupdated_at());
+                    
+    	reviewRepository.save(review);
+    }
+}
+
+Integer houseId = Integer.valueOf(paymentIntentObject.get("houseId"));
+Integer userId = Integer.valueOf(paymentIntentObject.get("userId"));
+House house = houseRepository.getReferenceById(houseId);
+User user = userRepository.getReferenceById(userId);
+LocalDate checkinDate = LocalDate.parse(paymentIntentObject.get("checkinDate"));
+LocalDate checkoutDate = LocalDate.parse(paymentIntentObject.get("checkoutDate"));
+Integer numberOfPeople = Integer.valueOf(paymentIntentObject.get("numberOfPeople"));        
+Integer amount = Integer.valueOf(paymentIntentObject.get("amount"));
+        
+reservation.setHouse(house);
+reservation.setUser(user);
+reservation.setCheckinDate(checkinDate);
+reservation.setCheckoutDate(checkoutDate);
+reservation.setNumberOfPeople(numberOfPeople);
+reservation.setAmount(amount);
+
+reservationRepository.save(reservation);

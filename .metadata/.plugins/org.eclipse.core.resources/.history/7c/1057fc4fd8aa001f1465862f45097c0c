@@ -1,0 +1,33 @@
+package com.example.samuraitravel.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.samuraitravel.entity.Review;
+import com.example.samuraitravel.form.ReviewInputForm;
+import com.example.samuraitravel.repository.ReviewRepository;
+
+@Service
+public class ReviewService {
+    private final ReviewRepository reviewRepository;    
+    
+    public ReviewService(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;        
+    } 
+    
+    @Transactional
+    //後でRevieFormを作る
+    public void create(ReviewInputForm reviewForm) {
+    	Review review = new Review();        
+        
+    	review.setReview_id(reviewForm.getReview_id());              
+    	review.setHouse_id(reviewForm.getHouse_id());
+    	review.setUser_id(reviewForm.getUser_id());
+    	review.setScore(reviewForm.getScore());
+    	review.setMemo(reviewForm.getMemo());
+    	review.setCreated_at(reviewForm.getCreated_at());
+    	review.setUpdated_at(reviewForm.getupdated_at());
+                    
+    	reviewRepository.save(review);
+    }
+}

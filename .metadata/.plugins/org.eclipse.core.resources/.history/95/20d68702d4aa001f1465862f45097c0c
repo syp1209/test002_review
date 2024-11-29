@@ -1,0 +1,42 @@
+package com.example.samuraitravel.service;
+
+import java.nio.file.Paths;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.samuraitravel.entity.Review;
+//import com.example.samuraitravel.form.HouseRegisterForm;
+import com.example.samuraitravel.repository.ReviewRepository;
+
+@Service
+public class ReviewService {
+    private final ReviewRepository reviewRepository;    
+    
+    public ReviewService(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;        
+    } 
+    
+    @Transactional
+    public void create(ReviewForm ReviewForm) {
+    	Review review = new Review();        
+        
+        if (!imageFile.isEmpty()) {
+            String imageName = imageFile.getOriginalFilename(); 
+            String hashedImageName = generateNewFileName(imageName);
+            Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+            copyImageFile(imageFile, filePath);
+            house.setImageName(hashedImageName);
+        }
+        
+        house.setName(houseRegisterForm.getName());                
+        house.setDescription(houseRegisterForm.getDescription());
+        house.setPrice(houseRegisterForm.getPrice());
+        house.setCapacity(houseRegisterForm.getCapacity());
+        house.setPostalCode(houseRegisterForm.getPostalCode());
+        house.setAddress(houseRegisterForm.getAddress());
+        house.setPhoneNumber(houseRegisterForm.getPhoneNumber());
+                    
+        houseRepository.save(house);
+    }
+}

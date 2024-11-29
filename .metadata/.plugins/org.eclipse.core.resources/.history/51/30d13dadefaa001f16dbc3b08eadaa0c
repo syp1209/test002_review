@@ -1,0 +1,42 @@
+package com.example.samuraitravel.controller;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.samuraitravel.entity.Review;
+import com.example.samuraitravel.repository.ReviewRepository;
+
+@Controller
+@RequestMapping("/houses")
+public class ReviewController {
+	//レビューのリポジトリを利用する
+    private final ReviewRepository reviewRepository; 
+    
+    public ReviewController(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;                
+    }
+    
+	//アプリのreview.htmlにアクセスされたときに実行されるメソッド
+	//レビュー投稿ボタンをクリックしたときに、レビュー投稿ページを表示する
+   // @GetMapping("/houses/{id}/review")
+    //public String input(@PathVariable(name = "id") Integer id
+    //					) {
+    	
+    //    return "/houses/{id}";
+    //}  
+    
+    
+    
+    //reviewテーブルのデータを利用する
+    @GetMapping
+    public String index(Model model) {
+        List<Review> review = reviewRepository.findAll();       
+        
+        model.addAttribute("review", Review);             
+        
+        return "admin/houses/index";
+    } 
+}
+

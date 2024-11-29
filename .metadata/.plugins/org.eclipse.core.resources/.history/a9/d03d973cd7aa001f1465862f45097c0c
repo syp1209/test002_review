@@ -1,0 +1,13 @@
+package com.example.samuraitravel.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.POSTMapping;
+
+@Controller
+public class ReviewController {
+	
+	//アプリの
+    @POSTMapping("/")
+    public String review() {
+        return "review";
+    }   
+}

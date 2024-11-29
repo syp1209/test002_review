@@ -1,0 +1,14 @@
+package com.example.samuraitravel.controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class ReviewController {
+	
+	//アプリのreview.htmlにアクセスされたときに実行されるメソッド
+	//レビュー投稿ボタンをクリックしたときに、レビュー投稿ページを表示する
+    @PostMapping("/review")
+    public String review() {
+        return "review";
+    }   
+}
