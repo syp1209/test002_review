@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-     <head>
-         <div th:replace="~{fragment :: meta}"></div>   
-              
-         <div th:replace="~{fragment :: styles}"></div>
-           
-     	<title>レビュー投稿ページ</title>   
- 	</head>
- 	
-		<body>
-			<form method="post" th:action="@{/input/create}" th:object="${ReviewInputForm}">
-				<label for="dropdown">選択してください:</label>
-				    <select id="dropdown" th:field="*{selectedValue}">
-				      <option th:each="option : ${ReviewInputForm.options}" th:value="${option}" th:text="${option}">オプション</option>
-				    </select>
-				    
-			  <input type="textarea" name="content"th:field="*{content}" placeholder="レビュー内容を入力してください">
-			  
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>レビュー投稿ページ</title>
+</head>
+<body>
+    <form method="post" th:action="@{/review/create}" th:object="${reviewInputForm}">
+        <label for="dropdown">評価を選択してください：</label>
+        <select id="dropdown" th:field="*{score}">
+            <option th:each="option : ${scores}" th:value="${option}" th:text="${option}">オプション</option>
+        </select>
 
-		    <button type="submit">送信</button>
-		  </form>
-		</body>
-		</html>
+        <label for="content">レビュー内容</label>
+        <textarea name="content" th:field="*{content}" placeholder="レビュー内容を入力してください"></textarea>
+
+        <button type="submit">送信</button>
+    </form>
+</body>
+</html>

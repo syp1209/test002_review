@@ -32,4 +32,25 @@ public class ReviewInputForm {
 	  public void setScores(List<String> scores) {
 	    this.scores = scores;
 	  }
+	  
+	    private Integer houseId;
+	    private Integer userId;
+
+	    // ゲッターとセッター
+	    public Integer getHouseId() {
+	        return houseId;
+	    }
+
+	    public void setHouseId(Integer houseId) {
+	        this.houseId = houseId;
+	    }
+
+	    public Integer getUserId() {
+	        return userId;
+	    }
+
+	    public void setUserId(Integer userId) {
+	        this.userId = userId;
+	    }
+	
 }

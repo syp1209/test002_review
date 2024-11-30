@@ -35,16 +35,16 @@ public class ReviewService {
 	//レビューの登録処理を行うcreate()メソッドを定義　※コントローラから呼び出して使う
 	//参照　13章 民宿の登録機能を作成しよう
 	public void create(ReviewInputForm reviewInputForm) {
-		Review review = new Review();
-		House house = houseRepository.getReferenceById(reviewInputForm.getHouse_id());
-		User user = userRepository.getReferenceById(reviewInputForm.getUser_id());
-		
-		review.setHouse(house);
-		review.setUser(user);
-		review.setScore(reviewInputForm.getScore());
-		review.setContent(reviewInputForm.getContent());
-		
-		reviewRepository.save(review);
+	    Review review = new Review();
+	    House house = houseRepository.getReferenceById(reviewInputForm.getHouseId());
+	    User user = userRepository.getReferenceById(reviewInputForm.getUserId());
+
+	    review.setHouse(house);
+	    review.setUser(user);
+	    review.setScore(reviewInputForm.getScore());
+	    review.setContent(reviewInputForm.getContent());
+
+	    reviewRepository.save(review);
 	}
  
 
