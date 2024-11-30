@@ -4,7 +4,7 @@
     <title>レビュー投稿ページ</title>
 </head>
 <body>
-    <form method="post" th:action="@{/review/create}" th:object="${reviewInputForm}">
+    <form method="post" th:action="@{/houses/__${house.getId()}__/review/list/input}" th:object="${reviewInputForm}">
         <label for="dropdown">評価を選択してください：</label>
         <select id="dropdown" th:field="*{score}">
             <option th:each="option : ${scores}" th:value="${option}" th:text="${option}">オプション</option>

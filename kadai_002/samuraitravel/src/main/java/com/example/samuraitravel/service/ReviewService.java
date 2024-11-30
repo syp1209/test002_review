@@ -1,5 +1,7 @@
 package com.example.samuraitravel.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +19,13 @@ public class ReviewService {
 	//reviewテーブルの値をを利用・登録する
 	//HouseテーブルのIDを利用する
 	//userテーブルのIDを利用する
+	
+	
 	private final ReviewRepository reviewRepository;
 	private final HouseRepository houseRepository;
 	private final UserRepository userRepository;
 	
-	
+
 
 	public ReviewService(ReviewRepository reviewRepository, HouseRepository houseRepository,
 			UserRepository userRepository) {
@@ -46,6 +50,13 @@ public class ReviewService {
 
 	    reviewRepository.save(review);
 	}
- 
+	
+	//レビュー一覧ページに表示するデータを取得する
+    public List<Review> findReviewsByHouseId(Long houseId) {
+        return reviewRepository.findByHouseIdOrderByCreatedAtDesc(houseId);
+    }
+    
+    
+
 
 }
