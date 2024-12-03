@@ -12,11 +12,10 @@
 			 <div class="text-center my-4">
 				 <form method="get" th:action="@{/houses/__${house.getId()}__/review/input}">
 					 <input type="hidden" name="houseId" th:value="${houseId}" />
-					 <!-- レビュー投稿ページへ遷移 -->
+
 					 <button type="submit" class="btn btn-primary">レビューを書く</button>
 				 </form>
 			 </div>
-
 			 
 			 <!-- レビュー一覧-->
 			 <div class="card">
@@ -27,7 +26,7 @@
 								 <h5 th:text="${review.user.name}"></h5>
 								 <p>Score: <span th:text="${review.score}"></span></p>
 								 <p th:text="${review.content}"></p>
-								 <p><small th:text="${#dates.format(review.updated_at, 'yyyy-MM-dd HH:mm')}"></small></p>
+								 <p><small th:text="${#dates.format(review.getUpdatedAt(), 'yyyy-MM-dd HH:mm')}"></small></p>
 							 </div>
 						 </div>
 					 </form>

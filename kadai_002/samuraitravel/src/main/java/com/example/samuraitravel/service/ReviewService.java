@@ -52,7 +52,7 @@ public class ReviewService {
 	}
 	
 	//レビュー一覧ページに表示するデータを取得する
-    public List<Review> findReviewsByHouseId(Long houseId) {
+    public List<Review> findReviewsByHouseId(int houseId) {
         return reviewRepository.findByHouseIdOrderByCreatedAtDesc(houseId);
     }
     
