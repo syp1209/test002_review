@@ -10,8 +10,10 @@
      <body>
 		 <main>
 			 <div class="text-center my-4">
-				 <form method="get" th:action="@{/houses/__${house.getId()}__/review/input}">
-					 <input type="hidden" name="houseId" th:value="${houseId}" />
+				 <form method="get" th:action="@{/houses/__${house.getId()}__/review/list/input}" th:object="${reviewInputForm}>
+				 	<!-- 民宿のIDとログイン中のユーザIDをレビュー投稿ページ処理に渡す-->
+					 <input type="hidden" name="houseId" th:value="${houseId}">
+					 <input type="hidden" name="userId" th:value="${userId}">
 
 					 <button type="submit" class="btn btn-primary">レビューを書く</button>
 				 </form>

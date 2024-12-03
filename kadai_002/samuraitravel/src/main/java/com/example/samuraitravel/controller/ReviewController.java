@@ -1,19 +1,22 @@
 package com.example.samuraitravel.controller;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
 import com.example.samuraitravel.form.ReviewInputForm;
 import com.example.samuraitravel.repository.HouseRepository;
+import com.example.samuraitravel.repository.UserRepository;
 import com.example.samuraitravel.service.ReviewService;
 
 @Controller
@@ -22,29 +25,51 @@ public class ReviewController {
 
 	 private ReviewService reviewService;
 	 private HouseRepository houseRepository;
+	 private UserRepository userRepository;
+
 	
 	public ReviewController(
 			ReviewService reviewService,
-			HouseRepository houseRepository) {
+			HouseRepository houseRepository,
+			UserRepository userRepository
+			) {
 		this.reviewService = reviewService;
 		this.houseRepository = houseRepository;
+		this.userRepository = userRepository;
 	}
     
-    //レビュー投稿ページ1
-    @GetMapping("/houses/{houseId}/review/input")
-    public String inputReview(Model model) {
+    //レビュー投稿ページ
+	@PostMapping("/houses/{houseId}/review/list/input")
+    public String inputReview() {
+    	//Scoresドロップダウンリストの作成
         ReviewInputForm form = new ReviewInputForm();
         form.setScores(Arrays.asList("★★★★★", "★★★★", "★★★", "★★", "★"));
+        
+        //Scoreにドロップダウンを設定したReviewInputFormをInput.htmlに渡す
         model.addAttribute("reviewInputForm", form);
-        return "/houses/{houseId}/review/input";
+        
+        
+        return "/houses/{houseId}/review/list/input";
     }
 
-    //レビュー投稿ページ2
-    @PostMapping("/houses/{houseId}/review/create")
-    public String createReview(@ModelAttribute ReviewInputForm reviewInputForm) {
-        reviewService.create(reviewInputForm);
+	
+    //レビュー投稿ページの「投稿」ボタンクリック→DB登録→レビュー一覧へリダイレクト
+    @PostMapping("/houses/{houseId}/review/list/input/create")
+    public String createReview(@PathVariable(name = "houseId") Integer houseId,
+								@RequestParam(name = "score", required = false) String score,
+								@RequestParam(name = "content", required = false) String content,
+								Model model) 
+    {
+    	
+    	House house = houseRepository.getReferenceById(houseId);
+    	User user = userRepository.getReferenceById(userId);
+        
+    	
+    	reviewService.create(score,content,houseId,userId);
+
         return "redirect:/houses/{houseId}/review/list"; // 投稿が成功したらリストページにリダイレクト
     }
+    
     
     //レビュー一覧ページ@PathVariable(name = "id") Integer id
     @GetMapping("/houses/{houseId}/review/list")

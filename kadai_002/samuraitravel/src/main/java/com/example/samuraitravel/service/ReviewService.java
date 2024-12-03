@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
 import com.example.samuraitravel.entity.User;
-import com.example.samuraitravel.form.ReviewInputForm;
 import com.example.samuraitravel.repository.HouseRepository;
 import com.example.samuraitravel.repository.ReviewRepository;
 import com.example.samuraitravel.repository.UserRepository;
@@ -27,7 +26,8 @@ public class ReviewService {
 	
 
 
-	public ReviewService(ReviewRepository reviewRepository, HouseRepository houseRepository,
+	public ReviewService(ReviewRepository reviewRepository,
+			HouseRepository houseRepository,
 			UserRepository userRepository) {
 		this.reviewRepository = reviewRepository;
 		this.houseRepository = houseRepository;
@@ -37,16 +37,16 @@ public class ReviewService {
 	//新規レビューをDBに保存 //ReviewInputForm ←新規投稿のForm
 	@Transactional
 	//レビューの登録処理を行うcreate()メソッドを定義　※コントローラから呼び出して使う
-	//参照　13章 民宿の登録機能を作成しよう
-	public void create(ReviewInputForm reviewInputForm) {
+	public void create(String score, String content,int houseId, int userId) {
 	    Review review = new Review();
-	    House house = houseRepository.getReferenceById(reviewInputForm.getHouseId());
-	    User user = userRepository.getReferenceById(reviewInputForm.getUserId());
-
+        House house = houseRepository.getReferenceById(houseId);
+        User user = userRepository.getReferenceById(userId);
+        
 	    review.setHouse(house);
 	    review.setUser(user);
-	    review.setScore(reviewInputForm.getScore());
-	    review.setContent(reviewInputForm.getContent());
+	    //フォームの入力内容を受け取る
+	    review.setScore(score);
+	    review.setContent(content);
 
 	    reviewRepository.save(review);
 	}

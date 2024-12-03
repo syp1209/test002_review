@@ -32,7 +32,8 @@ public class ReviewInputForm {
 	  public void setScores(List<String> scores) {
 	    this.scores = scores;
 	  }
-	  
+	
+    /* 
 	    private Integer houseId;
 	    private Integer userId;
 
@@ -52,5 +53,5 @@ public class ReviewInputForm {
 	    public void setUserId(Integer userId) {
 	        this.userId = userId;
 	    }
-	
+	*/
 }

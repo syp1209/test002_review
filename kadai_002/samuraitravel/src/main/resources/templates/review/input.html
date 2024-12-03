@@ -4,12 +4,21 @@
     <title>レビュー投稿ページ</title>
 </head>
 <body>
+	<form method="post" th:action="@{/houses/__${house.getId()}__/review/list/input/create}">
+		 <!--
     <form method="post" th:action="@{/houses/__${house.getId()}__/review/list/input}" th:object="${reviewInputForm}">
+		
         <label for="dropdown">評価を選択してください：</label>
         <select id="dropdown" th:field="*{score}">
             <option th:each="option : ${scores}" th:value="${option}" th:text="${option}">オプション</option>
         </select>
-
+        -->
+        <input type="hidden" name="houseId" th:value="${houseId}" />
+         <div class="col-md-8"> 
+			 <label for="dropdown">評価を選択してください：</label>                                                                 
+             <input type="text" class="form-control" th:field="*{score}" autofocus>
+         </div>
+         
         <label for="content">レビュー内容</label>
         <textarea name="content" th:field="*{content}" placeholder="レビュー内容を入力してください"></textarea>
 
@@ -18,6 +27,7 @@
 </body>
 </html>
 
+<!--
 			 <div class="card">
 				 <div class="card-body">
 					 <form method="get" th:action="@{/houses/__${house.getId()}__/review/list}">
@@ -32,3 +42,4 @@
 					 </form>
 				 </div>
 			 </div>
+ -->

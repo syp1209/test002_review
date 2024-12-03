@@ -12,8 +12,8 @@ public class ReviewRegisterForm {
         
     private String score;    
     
-    private String memo;
+    private String content;
     
-    private  String created_at;
+    
     
 }
