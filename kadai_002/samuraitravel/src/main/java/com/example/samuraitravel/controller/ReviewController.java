@@ -5,12 +5,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
@@ -40,7 +42,7 @@ public class ReviewController {
     
     //レビュー投稿ページ
 	@PostMapping("/houses/{houseId}/review/list/input")
-    public String inputReview() {
+    public String inputReview(@ModelAttribute) {
     	//Scoresドロップダウンリストの作成
         ReviewInputForm form = new ReviewInputForm();
         form.setScores(Arrays.asList("★★★★★", "★★★★", "★★★", "★★", "★"));
@@ -58,6 +60,7 @@ public class ReviewController {
     public String createReview(@PathVariable(name = "houseId") Integer houseId,
 								@RequestParam(name = "score", required = false) String score,
 								@RequestParam(name = "content", required = false) String content,
+								@AuthenticationPrincipal User
 								Model model) 
     {
     	

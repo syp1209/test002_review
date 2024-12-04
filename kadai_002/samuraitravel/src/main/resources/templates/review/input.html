@@ -16,11 +16,11 @@
         <input type="hidden" name="houseId" th:value="${houseId}" />
          <div class="col-md-8"> 
 			 <label for="dropdown">評価を選択してください：</label>                                                                 
-             <input type="text" class="form-control" th:field="*{score}" autofocus>
+             <input type="text" class="form-control" th:field="${review.score}" autofocus>
          </div>
          
         <label for="content">レビュー内容</label>
-        <textarea name="content" th:field="*{content}" placeholder="レビュー内容を入力してください"></textarea>
+        <textarea name="content" th:field="${review.content}" placeholder="レビュー内容を入力してください"></textarea>
 
         <button type="submit">送信</button>
     </form>
