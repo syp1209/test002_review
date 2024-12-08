@@ -31,7 +31,7 @@ public class Review {
 	
 	
 	@Column(name = "score")
-	private String score;
+	private Integer score;
 	
 	@Column(name ="content")
 	private String content;

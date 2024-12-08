@@ -10,11 +10,9 @@
      <body>
 		 <main>
 			 <div class="text-center my-4">
-				 <form method="get" th:action="@{/houses/__${house.getId()}__/review/list/input}" th:object="${reviewInputForm}">
-				 	<!-- 民宿のIDとログイン中のユーザIDをレビュー投稿ページ処理に渡す -->
-					 <input type="hidden" name="houseId" th:value="${houseId}">
-					 <input type="hidden" name="userId" th:value="${userId}">
-
+				 <form method="get" th:action="@{/houses/review/list/input}" th:object="${reviewInputForm}">
+				 	<!-- 民宿のIDをレビュー投稿ページ処理に渡す -->
+					 <input type="hidden" name="houseId" th:value="${house.getId()}">
 					 <button type="submit" class="btn btn-primary">レビューを書く</button>
 				 </form>
 			 </div>
@@ -22,36 +20,18 @@
 			 <!-- レビュー一覧 -->
 			 <div class="card">
 				 <div class="card-body">
-					 <form method="get" th:action="@{/houses/__${house.getId()}__/review/list}">
+					 <form method="get" th:action="@{/houses/review/list}">
 						 <div class="col-md-6" th:each="review : ${reviews}">
 							 <div class="border p-3 mb-3">
-								 <h5 th:text="${review.user.name}"></h5>
-								 <p>Score: <span th:text="${review.score}"></span></p>
-								 <p th:text="${review.content}"></p>
-								 <p><small th:text="${#dates.format(review.getUpdatedAt(), 'yyyy-MM-dd HH:mm')}"></small></p>
+								<h5 th:text="${review.user.name}"></h5>
+								<p>Score: <span th:text="${review.score}"></span></p>
+								<p th:text="${review.content}"></p>
+								<p><small th:text="${#dates.format(review.getUpdatedAt(), 'yyyy-MM-dd HH:mm')}"></small></p>
 							 </div>
 						 </div>
 					 </form>
 				 </div>
 			 </div>
-             
-			 <!--
-			 <div class="container mt-4">
-				 <div class="row">
-					 <div class="col-md-6" th:each="review : ${reviews}">
-						 <div class="border p-3 mb-3">
-							 <h5 th:text="${review.user.name}"></h5>
-							 <p>Score: <span th:text="${review.score}"></span></p>
-							 <p th:text="${review.content}"></p>
-							 <p><small th:text="${#dates.format(review.updated_at, 'yyyy-MM-dd HH:mm')}"></small></p>
-						 </div>
-					 </div>
-				 </div>
-			 </div>
-			 -->
-			 
-			 
-
 		 </main>
-
 	 </body>
+</html>

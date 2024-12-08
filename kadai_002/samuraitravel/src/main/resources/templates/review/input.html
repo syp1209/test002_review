@@ -4,42 +4,24 @@
     <title>レビュー投稿ページ</title>
 </head>
 <body>
-	<form method="post" th:action="@{/houses/__${house.getId()}__/review/list/input/create}">
-		 <!--
-    <form method="post" th:action="@{/houses/__${house.getId()}__/review/list/input}" th:object="${reviewInputForm}">
-		
-        <label for="dropdown">評価を選択してください：</label>
-        <select id="dropdown" th:field="*{score}">
-            <option th:each="option : ${scores}" th:value="${option}" th:text="${option}">オプション</option>
-        </select>
-        -->
-        <input type="hidden" name="houseId" th:value="${houseId}" />
-         <div class="col-md-8"> 
-			 <label for="dropdown">評価を選択してください：</label>                                                                 
-             <input type="text" class="form-control" th:field="${review.score}" autofocus>
-         </div>
-         
-        <label for="content">レビュー内容</label>
-        <textarea name="content" th:field="${review.content}" placeholder="レビュー内容を入力してください"></textarea>
+	<form method="post" th:action="@{/houses/review/list/input/create}" th:object="${reviewInputForm}">
 
+        <input type="hidden" name="houseId" th:value="${houseId}" />
+        
+         <div class="col-md-8"> 
+			 <label for="dropdown">評価を選択してください：</label>
+			 <br/>
+			 <select class="dropdown form-control" name="selectedScore">
+				<option th:each="scoreItem : ${scoreList}" th:value="${scoreItem.getKey()}" th:text="${scoreItem.getValue()}"></option>
+			 </select>
+         </div>
+         <br/>
+         <div class="col-md-8"> 
+         	<label for="content">レビュー内容</label>
+         	<br/>
+        	<textarea name="content" placeholder="レビュー内容を入力してください" rows="5" cols="33"></textarea>
+		 </div>
         <button type="submit">送信</button>
     </form>
 </body>
 </html>
-
-<!--
-			 <div class="card">
-				 <div class="card-body">
-					 <form method="get" th:action="@{/houses/__${house.getId()}__/review/list}">
-						 <div class="col-md-6" th:each="review : ${reviews}">
-							 <div class="border p-3 mb-3">
-								 <h5 th:text="${review.user.name}"></h5>
-								 <p>Score: <span th:text="${review.score}"></span></p>
-								 <p th:text="${review.content}"></p>
-								 <p><small th:text="${#dates.format(review.getUpdatedAt(), 'yyyy-MM-dd HH:mm')}"></small></p>
-							 </div>
-						 </div>
-					 </form>
-				 </div>
-			 </div>
- -->
