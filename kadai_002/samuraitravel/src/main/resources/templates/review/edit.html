@@ -1,39 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<head>
-         <div th:replace="~{fragment :: meta}"></div>   
-              
-         <div th:replace="~{fragment :: styles}"></div>
-           
-         <title>レビュー編集ページ</title>   
-     </head>
-     <body>
-		 <div class="samuraitravel-wrapper">
-			 <!-- 確認URL http://localhost:8080/review/edit -->
-			 <!-- ヘッダー -->
-			 <div th:replace="~{fragment :: header}"></div>
-			 <main>
-				 <form th:action="@{/profile/age}" method="post">
-					 <p>
-						 <label for="name">評価を入力してください</label>
-						 <input type="text" name="name" id="name">
-					 </p>
-					 
-					 <p>
-						 <input type="submit" value="レビュー再投稿">
-						 
-		 				 <div class="d-flex justify-content-center">
-				     		<button id="editBtn" class="btn text-white shadow-sm w-100 samuraitravel-btn">編集
-					 		</button>
-						</div>
-					 </p>
-					 
-				 </form>
-				 
-				 <div class="d-flex justify-content-center">
-				     <button type="submit" class="btn text-white shadow-sm w-50 samuraitravel-btn">レビューを再投稿する</button>
-				 </div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>レビュー投稿ページ</title>
+</head>
+<body>
+	<form method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewEditForm}">
 
-			 </main>
+        <input type="hidden" name="houseId" th:value="${houseId}" />
+        
+         <div class="col-md-8"> 
+			 <label for="dropdown">評価を選択してください：</label>
+			 <br/>
+			 <select class="dropdown form-control" name="selectedScore">
+				<option th:each="scoreItem : ${scoreList}" th:value="${scoreItem.getKey()}" th:text="${scoreItem.getValue()}"></option>
+			 </select>
+         </div>
+         <br/>
+         <div class="col-md-8"> 
+         	<label for="content">レビュー内容</label>
+         	<br/>
+        	<textarea name="content" placeholder="レビュー内容を入力してください" rows="5" cols="33"></textarea>
 		 </div>
-	 </body>
+        <button type="submit">送信</button>
+    </form>
+</body>
+</html>

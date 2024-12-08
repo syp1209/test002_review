@@ -1,34 +1,29 @@
 package com.example.samuraitravel.form;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
+@Data
 public class ReviewEditForm {
-    @NotBlank(message = "評価を５段階で選択してください")
-    private String score;
-    //DBのscoreカラムのレコードを取得する
+    @NotBlank(message = "評価を５段階で再選択してください")
+    private int selectedScore;
     
-    @NotBlank(message = "レビュー内容を編集できます")
-    private String memo;
-    //DBのmomoカラムのレコードを取得する
-    
-    
-    //見本
-    //@NotBlank(message = "チェックイン日とチェックアウト日を選択してください。")
-    //private String fromCheckinDateToCheckoutDate;    
-    
-    //@NotNull(message = "宿泊人数を入力してください。")
-    //@Min(value = 1, message = "宿泊人数は1人以上に設定してください。")
-    //private Integer numberOfPeople; 
+    @NotBlank(message = "レビュー内容を再入力してください")
+    private String content;
 
-    // チェックイン日を取得する
-    //public LocalDate getCheckinDate() {
-    //    String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split(" から ");
-    //    return LocalDate.parse(checkinDateAndCheckoutDate[0]);
-    //}
+	public int getSelectedScore() {
+		return this.selectedScore;
+	}
 
-    // チェックアウト日を取得する
-    //public LocalDate getCheckoutDate() {
-    //    String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split(" から ");
-    //    return LocalDate.parse(checkinDateAndCheckoutDate[1]);
-    //}
+	public void setSelectedScore(int selectedScore) {
+	    this.selectedScore = selectedScore;
+	}
+
+	public String getContent() {
+		return this.content;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
+	}
 }
