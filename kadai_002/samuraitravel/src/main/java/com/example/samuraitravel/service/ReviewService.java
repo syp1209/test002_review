@@ -91,4 +91,23 @@ public class ReviewService {
     	return retScoreStr;
     		
     }
+    
+ 
+    
+	@Transactional
+	//レビューの編集処理を行うupdate()メソッドを定義　※コントローラから呼び出して使う
+	public void update(int score, String content,int houseId, int userId, int reviewId) {
+	    Review review = new Review();
+        House house = houseRepository.getReferenceById(houseId);
+        User user = userRepository.getReferenceById(userId);
+        
+        review.setId(reviewId);//	編集するレビューのIDを取得し特定する
+	    review.setHouse(house);
+	    review.setUser(user);
+	    //フォームの入力内容を受け取る
+	    review.setScore(score);
+	    review.setContent(content);
+
+	    reviewRepository.save(review);
+	}
 }

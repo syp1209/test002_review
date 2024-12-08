@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>レビュー投稿ページ</title>
+    <title>レビュー編集ページ</title>
 </head>
 <body>
 	<form method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewEditForm}">
@@ -9,7 +9,7 @@
         <input type="hidden" name="houseId" th:value="${houseId}" />
         
          <div class="col-md-8"> 
-			 <label for="dropdown">評価を選択してください：</label>
+			 <label for="dropdown">評価を再選択してください：</label>
 			 <br/>
 			 <select class="dropdown form-control" name="selectedScore">
 				<option th:each="scoreItem : ${scoreList}" th:value="${scoreItem.getKey()}" th:text="${scoreItem.getValue()}"></option>
@@ -19,9 +19,9 @@
          <div class="col-md-8"> 
          	<label for="content">レビュー内容</label>
          	<br/>
-        	<textarea name="content" placeholder="レビュー内容を入力してください" rows="5" cols="33"></textarea>
+        	<textarea name="content" placeholder="レビュー内容を再入力してください" rows="5" cols="33"></textarea>
 		 </div>
-        <button type="submit">送信</button>
+        <button type="submit">再投稿</button>
     </form>
 </body>
 </html>
