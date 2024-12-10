@@ -28,11 +28,10 @@
 					 <div class="card-body">
 						 <form method="get" th:action="@{/houses/review/list}" th:object="${reviewListForm}">
 							 <!-- 編集ボタン、削除ボタン -->
-                                 <div>
-									 <input type="hidden" name="selected_review" th:value="${review.id}">
-                                     <a th:href="@{/houses/review/edit}">編集</a>                                    
-                                 </div> 
-                                 
+							 	<input type="hidden" name="selected_review" th:value="${review.id}">
+								<button type="submit" class="btn btn-primary" method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewListForm}">
+								 編集する
+								</button>
 							<br><br>
 							
 									 <div class="col-md-6" th:each="review : ${reviews}">
