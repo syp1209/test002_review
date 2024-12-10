@@ -27,13 +27,17 @@
 				 <div class="card">
 					 <div class="card-body">
 						 <form method="get" th:action="@{/houses/review/list}" th:object="${reviewListForm}">
-							 <button type="submit" class="btn btn-primary" method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewListForm}">編集する</a></button>
+							 <button type="submit" class="btn btn-primary" method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewListForm}">
+								 編集する
+								</button>
 							<br><br>
 									 <div class="col-md-6" th:each="review : ${reviews}">
 											 <div class="border p-3 mb-3">
 												 <!-- ログインユーザとレビューの投稿者IDを比較 -->
-												 <input type="radio" th:if="${review.user.username == #authentication.name}" name="selected_review" th:value="${review.id}">
-												 
+												 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user.id == review.getUser().getId()}">
+												    <input type="radio" name="selected_review" th:value="${review.id}">
+												 </div>
+																								 
 	
 												 
 												<h5 th:text="${review.user.name}"></h5>
