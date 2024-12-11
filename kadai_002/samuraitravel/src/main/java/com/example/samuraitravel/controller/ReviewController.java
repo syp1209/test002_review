@@ -1,7 +1,5 @@
 package com.example.samuraitravel.controller;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,13 +116,13 @@ public class ReviewController {
     		@RequestParam Integer reviewId,
     		Model model) {
 		
-        Review review = reviewRepository.findById(reviewId);
+       // Review review = reviewRepository.findById(reviewId);
 		
             
         //Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("houseId", houseId);
-        model.addAttribute("review", review);
+        //model.addAttribute("review", review);
  
         
         return "review/edit";
@@ -140,7 +138,7 @@ public class ReviewController {
     		Model model) {
         
 		
-		reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId,user.getId());
+		//reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId,user.getId());
         //Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("house", house);
