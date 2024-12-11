@@ -7,6 +7,7 @@
 	<form method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewEditForm}">
 
         <input type="hidden" name="houseId" th:value="${houseId}" />
+        <input type="hidden" name="reviewId" th:value="${review.getId()}" />
         
          <div class="col-md-8"> 
 			 <label for="dropdown">評価を再選択してください：</label>
@@ -15,7 +16,7 @@
 				<option th:each="scoreItem : ${scoreList}" th:value="${scoreItem.getKey()}" th:text="${scoreItem.getValue()}"></option>
 			 </select>
          </div>
-         <br/>
+         <br/>s
          <div class="col-md-8"> 
          	<label for="content">レビュー内容</label>
          	<br/>

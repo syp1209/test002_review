@@ -26,9 +26,10 @@
 			 <!-- レビュー一覧 -->
 				 <div class="card">
 					 <div class="card-body">
-						 <form method="get" th:action="@{/houses/review/list}" th:object="${reviewListForm}">
-							 <!-- 編集ボタン、削除ボタン -->
-							 	<input type="hidden" name="selected_review" th:value="${review.id}">
+						 <form method="get" th:action="@{/houses/review/list/edit}" th:object="${reviewListForm}">
+							 <!-- 編集ボタン、削除ボタン 
+							 	<input type="hidden" name="selected_review" th:value="${review.id}">-->
+							 	<input type="hidden" name="houseId" th:value="${house.getId()}">
 								<button type="submit" class="btn btn-primary" method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewListForm}">
 								 編集する
 								</button>
@@ -38,7 +39,7 @@
 											 <div class="border p-3 mb-3">
 												 <!-- ログインユーザとレビューの投稿者IDを比較 -->
 												 <div sec:authorize="isAuthenticated()" th:if="${#authentication.principal.user.id == review.getUser().getId()}">
-												    <input type="radio" name="selected_review" th:value="${review.id}">
+												    <input type="radio" name="reviewId" th:value="${review.id}">
 												 </div>
 												<h5 th:text="${review.user.name}"></h5>
 												<p>Score: <span th:text="${review.score}"></span></p>

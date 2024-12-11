@@ -1,8 +1,11 @@
 package com.example.samuraitravel.controller;
 
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.samuraitravel.entity.House;
+import com.example.samuraitravel.entity.Review;
 import com.example.samuraitravel.entity.User;
+import com.example.samuraitravel.form.ReviewEditForm;
 import com.example.samuraitravel.form.ReviewInputForm;
 import com.example.samuraitravel.form.ReviewListForm;
 import com.example.samuraitravel.repository.HouseRepository;
@@ -31,9 +36,11 @@ public class ReviewController {
 
 	public ReviewController(
 			ReviewService reviewService,
-			HouseRepository houseRepository) {
+			HouseRepository houseRepository,
+			ReviewRepository reviewRepository) {
 		this.reviewService = reviewService;
 		this.houseRepository = houseRepository;
+		this.reviewRepository = reviewRepository;
 	}
     
     //レビュー一覧ページ
@@ -115,14 +122,15 @@ public class ReviewController {
     		@RequestParam Integer houseId,
     		@RequestParam Integer reviewId,
     		Model model) {
+		System.out.println("reviewId:" + reviewId);
 		
-       // Review review = reviewRepository.findById(reviewId);
+		Optional<Review> review = reviewRepository.findById(reviewId);
 		
             
         //Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("houseId", houseId);
-        //model.addAttribute("review", review);
+        model.addAttribute("review", review);
  
         
         return "review/edit";
@@ -135,11 +143,13 @@ public class ReviewController {
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		@RequestParam Integer houseId,
     		@ModelAttribute House house,
+    		@ModelAttribute ReviewEditForm reviewEditform,
     		Model model) {
         
 		
-		//reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId,user.getId());
-        //Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
+		reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
+        
+		//Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("house", house);
         model.addAttribute("houseId", houseId);
