@@ -4,11 +4,12 @@
     <title>レビュー編集ページ</title>
 </head>
 <body>
-	<form method="post" th:action="@{/houses/review/list/edit}" th:object="${reviewEditForm}">
+	<form method="post" th:action="@{/houses/review/list/edit/update}" th:object="${reviewEditForm}">
 
         <input type="hidden" name="houseId" th:value="${houseId}" />
-        <input type="hidden" name="reviewId" th:value="${review.getId()}" />
-        
+        <input type="hidden" name="reviewId" th:value="${review.get().getId()}" />
+
+
          <div class="col-md-8"> 
 			 <label for="dropdown">評価を再選択してください：</label>
 			 <br/>

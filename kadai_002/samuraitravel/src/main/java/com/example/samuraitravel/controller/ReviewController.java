@@ -138,23 +138,26 @@ public class ReviewController {
         
         
     //レビューの編集内容をDBへ登録
-	@GetMapping("/houses/review/list/edit/update")
+	@PostMapping("/houses/review/list/edit/update")
     public String updateReview(
     		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
     		@RequestParam Integer houseId,
     		@ModelAttribute House house,
+    		@RequestParam Integer reviewId,
     		@ModelAttribute ReviewEditForm reviewEditform,
     		Model model) {
         
 		
 		reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
         
-		//Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
+		//edit.htmlに入力した内容で、DBを更新する
+		model.addAttribute("reviewId", reviewId);
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("house", house);
         model.addAttribute("houseId", houseId);
         
-        return "review/edit";
+        //更新したらレビュー一覧ページにリダイレクト
+        return "redirect:/review/list";
     }
     
 }
