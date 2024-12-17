@@ -122,7 +122,9 @@ public class ReviewController {
     		@RequestParam Integer houseId,
     		@RequestParam Integer reviewId,
     		Model model) {
-		System.out.println("reviewId:" + reviewId);
+		
+		//エラー箇所↓
+		//ReviewEditForm reviewEditForm = new reviewEditForm(review.getReviewId(), review.getSelectedScore(), review.getContent());
 		
 		Optional<Review> review = reviewRepository.findById(reviewId);
 		
@@ -131,9 +133,24 @@ public class ReviewController {
         model.addAttribute("scoreList", getReviewList());
         model.addAttribute("houseId", houseId);
         model.addAttribute("review", review);
+      //エラー箇所↓
+        //model.addAttribute("reviewEditForm",reviewEditForm);
  
         
         return "review/edit";
+        
+        //メモ
+        //@GetMapping("/{id}/edit")
+        //public String edit(@PathVariable(name = "id") Integer id, Model model) {
+        //    House house = houseRepository.getReferenceById(id);
+        //    String imageName = house.getImageName();
+        //   HouseEditForm houseEditForm = new HouseEditForm(house.getId(), house.getName(), null, house.getDescription(), house.getPrice(), house.getCapacity(), house.getPostalCode(), house.getAddress(), house.getPhoneNumber());
+        //    
+         //   model.addAttribute("imageName", imageName);
+         //   model.addAttribute("houseEditForm", houseEditForm);
+         //   
+         //   return "admin/houses/edit";
+        //}    
     }
         
         
@@ -156,8 +173,16 @@ public class ReviewController {
         model.addAttribute("house", house);
         model.addAttribute("houseId", houseId);
         
-        //更新したらレビュー一覧ページにリダイレクト
-        return "redirect:/review/list";
+
+        //更新後の最新情報で一覧を再表示
+        List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
+        User user = userDetailsImpl.getUser();
+        
+        model.addAttribute("reviews",reviews);
+        model.addAttribute("house",house);
+        model.addAttribute("user",user);
+        
+        return "/review/list";
     }
     
 }
