@@ -115,42 +115,33 @@ public class ReviewController {
         return "review/list";
 	}
     
-    //レビュー編集ページ表示
-	@GetMapping("/houses/review/list/edit")
-    public String editReview(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@RequestParam Integer houseId,
-    		@RequestParam Integer reviewId,
-    		Model model) {
-		
-		//エラー箇所↓
-		//ReviewEditForm reviewEditForm = new reviewEditForm(review.getReviewId(), review.getSelectedScore(), review.getContent());
-		
-		Optional<Review> review = reviewRepository.findById(reviewId);
-		
-            
-        //Scoreにドロップダウンを設定したReviewEditFormをedit.htmlに渡す
-        model.addAttribute("scoreList", getReviewList());
-        model.addAttribute("houseId", houseId);
-        model.addAttribute("review", review);
-      //エラー箇所↓
-        //model.addAttribute("reviewEditForm",reviewEditForm);
- 
-        
-        return "review/edit";
-        
-        //メモ
-        //@GetMapping("/{id}/edit")
-        //public String edit(@PathVariable(name = "id") Integer id, Model model) {
-        //    House house = houseRepository.getReferenceById(id);
-        //    String imageName = house.getImageName();
-        //   HouseEditForm houseEditForm = new HouseEditForm(house.getId(), house.getName(), null, house.getDescription(), house.getPrice(), house.getCapacity(), house.getPostalCode(), house.getAddress(), house.getPhoneNumber());
-        //    
-         //   model.addAttribute("imageName", imageName);
-         //   model.addAttribute("houseEditForm", houseEditForm);
-         //   
-         //   return "admin/houses/edit";
-        //}    
+	//レビュー編集ページ表示
+		@GetMapping("/houses/review/list/edit")
+	    public String editReview(
+	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    		@RequestParam Integer houseId,
+	    		@RequestParam Integer reviewId,
+	    		Model model) {
+			
+			//エラー箇所↓
+			//ReviewEditForm reviewEditForm = new ReviewEditForm(review.getReviewId(), review.getSelectedScore(), review.getContent());
+			
+			//Reviewテーブルから取得した各項目の値をReviewEditFormに設定
+			Optional<Review> review = reviewRepository.findById(reviewId);
+			ReviewEditForm reviewEditForm = new ReviewEditForm();
+			reviewEditForm.setReviewId(reviewId);
+			reviewEditForm.setSelectedScore(review.get().getScore());
+			reviewEditForm.setContent(review.get().getContent());
+	            
+	        //edit.htmlに渡す各値を設定
+	        model.addAttribute("scoreList", getReviewList());
+	        model.addAttribute("houseId", houseId);
+	        model.addAttribute("review", review);
+	        model.addAttribute("reviewEditForm",reviewEditForm);
+	 
+	        
+	        return "review/edit";
+          
     }
         
         
