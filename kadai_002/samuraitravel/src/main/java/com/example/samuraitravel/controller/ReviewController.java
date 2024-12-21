@@ -117,93 +117,80 @@ public class ReviewController {
 	}
     
 	//レビュー編集ページ表示
-		@GetMapping("/houses/review/list/edit")
-	    public String editReview(
-	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-	    		@RequestParam Integer houseId,
-	    		@RequestParam Integer reviewId,
-	    		Model model) {
+	@GetMapping(path="/houses/review/list/edit", params="edit")
+	public String editReview(
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    	@RequestParam Integer houseId,
+	    	@RequestParam Integer reviewId,
+	    	Model model) {
 			
-			//エラー箇所↓
-			//ReviewEditForm reviewEditForm = new ReviewEditForm(review.getReviewId(), review.getSelectedScore(), review.getContent());
-			
-			//Reviewテーブルから取得した各項目の値をReviewEditFormに設定
-			Optional<Review> review = reviewRepository.findById(reviewId);
-			ReviewEditForm reviewEditForm = new ReviewEditForm();
-			reviewEditForm.setReviewId(reviewId);
-			reviewEditForm.setSelectedScore(review.get().getScore());
-			reviewEditForm.setContent(review.get().getContent());
+		//エラー箇所↓
+		//ReviewEditForm reviewEditForm = new ReviewEditForm(review.getReviewId(), review.getSelectedScore(), review.getContent());
+		
+		//Reviewテーブルから取得した各項目の値をReviewEditFormに設定
+		Optional<Review> review = reviewRepository.findById(reviewId);
+		ReviewEditForm reviewEditForm = new ReviewEditForm();
+		reviewEditForm.setReviewId(reviewId);
+		reviewEditForm.setSelectedScore(review.get().getScore());
+		reviewEditForm.setContent(review.get().getContent());
 	            
-	        //edit.htmlに渡す各値を設定
-	        model.addAttribute("scoreList", getReviewList());
-	        model.addAttribute("houseId", houseId);
-	        model.addAttribute("review", review);
-	        model.addAttribute("reviewEditForm",reviewEditForm);
-	 
+	    //edit.htmlに渡す各値を設定
+	    model.addAttribute("scoreList", getReviewList());
+	    model.addAttribute("houseId", houseId);
+	    model.addAttribute("review", review);
+	    model.addAttribute("reviewEditForm",reviewEditForm);
 	        
-	        return "review/edit";
-          
+	    return "review/edit";
     }
-        
-        
+   
     //レビューの編集内容をDBへ登録
-		@PostMapping("/houses/review/list/edit/update")
-	    public String updateReview(
-	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-	    		@RequestParam Integer houseId,
-	    		@RequestParam Integer reviewId,
-	    		@ModelAttribute ReviewEditForm reviewEditform,
-	    		Model model) {
+	@PostMapping("/houses/review/list/edit/update")
+	public String updateReview(
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    	@RequestParam Integer houseId,
+	    	@RequestParam Integer reviewId,
+	    	@ModelAttribute ReviewEditForm reviewEditform,
+	    	Model model) {
 	        
 			
-			reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
+		reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
 
 
 
-	        //更新後の最新情報で一覧を再表示
-	List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
-	        House house = houseRepository.getReferenceById(houseId);
-	        User user = userDetailsImpl.getUser();
-	        
-	        model.addAttribute("reviews", reviews);
-	        model.addAttribute("house", house);
-	        model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
-	        
-	        return "/review/list";
-	    }
+		//更新後の最新情報で一覧を再表示
+		List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
+	    House house = houseRepository.getReferenceById(houseId);
+	    User user = userDetailsImpl.getUser();
+	    
+	    model.addAttribute("reviews", reviews);
+	    model.addAttribute("house", house);
+	    model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
+	    
+	    return "/review/list";
+	}
     
+	@GetMapping(path="/houses/review/list/edit", params="delete")
+	public String deleteReview(
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    	@RequestParam Integer houseId,
+	    	@RequestParam Integer reviewId,
+	    	RedirectAttributes redirectAttributes,
+	    	Model model) {
 		
-		@GetMapping("/houses/review/list/delete")
-		public String deleteReview(
-	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-	    		@RequestParam Integer houseId,
-	    		@RequestParam Integer reviewId,
-	    		RedirectAttributes redirectAttributes,
-	    		Model model) {
+		//レビュー情報の削除
+		reviewRepository.deleteById(reviewId);
 		
-				
-				//レビュー情報の削除
-				reviewRepository.deleteById(reviewId);
-				
-		        //削除後の最新情報で一覧を再表示
-		        List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
-		        House house = houseRepository.getReferenceById(houseId);
-		        User user = userDetailsImpl.getUser();
+		//削除後の最新情報で一覧を再表示
+		List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
+		House house = houseRepository.getReferenceById(houseId);
+		User user = userDetailsImpl.getUser();
+		
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("house", house);
+		model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
 		        
-		        model.addAttribute("reviews", reviews);
-		        model.addAttribute("house", house);
-		        model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
-		        
-		        redirectAttributes.addFlashAttribute("successMessage", "レビュー情報を削除しました。");
-		        
-		        return "redirect:/review/list";
-		        
-		        //@PostMapping("/{id}/delete")
-		        //public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
-		        //    houseRepository.deleteById(id);
-		                    
-		        //    redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました。");
-		            
-		        //    return "redirect:/admin/houses";
-		}
+		redirectAttributes.addFlashAttribute("successMessage", "レビュー情報を削除しました。");
+	    
+	    return "/review/list";
+	}
 }

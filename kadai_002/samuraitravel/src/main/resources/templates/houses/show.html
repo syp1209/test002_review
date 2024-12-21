@@ -143,28 +143,28 @@
                                                  </div>
                                              </form>                                                                 
                                          </div>
-                                     </div>
-                                     
+                                     </div>	
+                                </div>
+                                </div>
 
-									</div>
-									    <!-- レビュー一覧 -->
+
+								  </div> 
+                                 	   <!-- レビュー一覧 -->
 										<form method="get" th:action="@{/houses/review/list}" th:object="${reviewInputForm}">
 										    <!-- 民宿のIDをボタンクリック時にフォームへ渡す -->
 										    <input type="hidden" name="houseId" th:value="${house.getId()}" />
 										    <button type="submit" class="btn text-white shadow-sm w-100 samuraitravel-btn">レビュー一覧</button>
-										</form>
-
-								  </div> 
-                                     	
-                                </div>
-                                 	
-                                 
+										</form> 
+                              
 
 								                                   
                              </div>
+
                          </div>
                      </div>
+
                  </div>
+
              </main>
              
              <!-- フッター -->
