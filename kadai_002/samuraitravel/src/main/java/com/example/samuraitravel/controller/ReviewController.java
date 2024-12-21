@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.samuraitravel.entity.House;
 import com.example.samuraitravel.entity.Review;
@@ -146,34 +147,63 @@ public class ReviewController {
         
         
     //レビューの編集内容をDBへ登録
-	@PostMapping("/houses/review/list/edit/update")
-    public String updateReview(
-    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-    		@RequestParam Integer houseId,
-    		@ModelAttribute House house,
-    		@RequestParam Integer reviewId,
-    		@ModelAttribute ReviewEditForm reviewEditform,
-    		Model model) {
-        
-		
-		reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
-        
-		//edit.htmlに入力した内容で、DBを更新する
-		model.addAttribute("reviewId", reviewId);
-        model.addAttribute("scoreList", getReviewList());
-        model.addAttribute("house", house);
-        model.addAttribute("houseId", houseId);
-        
+		@PostMapping("/houses/review/list/edit/update")
+	    public String updateReview(
+	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    		@RequestParam Integer houseId,
+	    		@RequestParam Integer reviewId,
+	    		@ModelAttribute ReviewEditForm reviewEditform,
+	    		Model model) {
+	        
+			
+			reviewService.update(reviewEditform.getSelectedScore(),reviewEditform.getContent(),houseId, userDetailsImpl.getUser().getId(), reviewEditform.getReviewId());
 
-        //更新後の最新情報で一覧を再表示
-        List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
-        User user = userDetailsImpl.getUser();
-        
-        model.addAttribute("reviews",reviews);
-        model.addAttribute("house",house);
-        model.addAttribute("user",user);
-        
-        return "/review/list";
-    }
+
+
+	        //更新後の最新情報で一覧を再表示
+	List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
+	        House house = houseRepository.getReferenceById(houseId);
+	        User user = userDetailsImpl.getUser();
+	        
+	        model.addAttribute("reviews", reviews);
+	        model.addAttribute("house", house);
+	        model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
+	        
+	        return "/review/list";
+	    }
     
+		
+		@GetMapping("/houses/review/list/delete")
+		public String deleteReview(
+	    		@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	    		@RequestParam Integer houseId,
+	    		@RequestParam Integer reviewId,
+	    		RedirectAttributes redirectAttributes,
+	    		Model model) {
+		
+				
+				//レビュー情報の削除
+				reviewRepository.deleteById(reviewId);
+				
+		        //削除後の最新情報で一覧を再表示
+		        List<ReviewListForm> reviews = reviewService.findReviewsByHouseId(houseId);
+		        House house = houseRepository.getReferenceById(houseId);
+		        User user = userDetailsImpl.getUser();
+		        
+		        model.addAttribute("reviews", reviews);
+		        model.addAttribute("house", house);
+		        model.addAttribute("user", user);//ログイン中のユーザのみにラジオボタンを表示する際に必要
+		        
+		        redirectAttributes.addFlashAttribute("successMessage", "レビュー情報を削除しました。");
+		        
+		        return "redirect:/review/list";
+		        
+		        //@PostMapping("/{id}/delete")
+		        //public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
+		        //    houseRepository.deleteById(id);
+		                    
+		        //    redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました。");
+		            
+		        //    return "redirect:/admin/houses";
+		}
 }

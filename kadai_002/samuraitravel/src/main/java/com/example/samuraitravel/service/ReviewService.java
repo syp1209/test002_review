@@ -92,7 +92,6 @@ public class ReviewService {
     		
     }
     
- 
     
 	@Transactional
 	//レビューの編集処理を行うupdate()メソッドを定義　※コントローラから呼び出して使う

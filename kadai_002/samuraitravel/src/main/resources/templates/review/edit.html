@@ -4,6 +4,7 @@
     <title>レビュー編集ページ</title>
 </head>
 <body>
+	<a th:href="@{/}">ホーム</a></li>
 	<form method="post" th:action="@{/houses/review/list/edit/update}" th:object="${reviewEditForm}">
 
         <input type="hidden" name="houseId" th:value="${houseId}" />
